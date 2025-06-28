@@ -3,7 +3,7 @@
 $host = 'localhost';       // Host
 $dbname = 'webvex_db';     // Database name
 $user = 'root';            // MySQL username
-$password = '';            // MySQL password (leave empty if not set)
+$password = '123';            // MySQL password (leave empty if not set)
 
 // Attempt to connect to the database
 $conn = new mysqli($host, $user, $password, $dbname);

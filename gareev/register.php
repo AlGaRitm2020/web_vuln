@@ -2,7 +2,7 @@
 $host = 'localhost';
 $dbname = 'webvex_db'; 
 $user = 'root';
-$password = ''; 
+$password = '123'; 
 
 // Подключение к БД
 $conn = new mysqli($host, $user, $password, $dbname);

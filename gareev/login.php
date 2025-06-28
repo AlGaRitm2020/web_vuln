@@ -4,7 +4,7 @@ session_start();
 $host = 'localhost';
 $dbname = 'webvex_db';
 $user = 'root';
-$password = '';
+$password = '123';
 
 $conn = new mysqli($host, $user, $password, $dbname);
 
