@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: webvex-db
+    environment:
+      MYSQL_ROOT_PASSWORD: '123'
+      MYSQL_DATABASE: 'webvex_db'
+    volumes:
+      - ./SQL/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    restart: always
+
+  app:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: webvex-app
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: 123
+      DB_NAME: webvex_db
+    restart: always
