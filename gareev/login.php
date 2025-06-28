@@ -12,29 +12,26 @@ if ($conn->connect_error) {
     die("Ошибка подключения: " . $conn->connect_error);
 }
 
+// Получаем данные из формы
 $username = $_POST['username'];
-$password = $_POST['password'];
+/* $password = $_POST['password']; */
+$password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
 
-// Поиск пользователя по логину
-$sql = "SELECT id, username, password FROM users WHERE username='$username'";
+
+
+$sql = "SELECT id FROM users WHERE username='$username' AND password='$password'";
 $result = $conn->query($sql);
 
-if ($result->num_rows == 1) {
-    $row = $result->fetch_assoc();
-    if (password_verify($password, $row['password'])) {
-        // Пароль совпадает
-        $_SESSION['username'] = $username;
+if ($result->num_rows > 0) {
+    $_SESSION['username'] = $username;
 
-        // Устанавливаем cookie на 1 час
-        setcookie('user', $username, time() + 3600, '/');
+    // Устанавливаем cookie на 1 час
+    setcookie('user', $username, time() + 3600, '/');
 
-        header("Location: welcome.php");
-        exit();
-    } else {
-        echo "Неверный пароль. <a href='authorization.html'>Попробовать снова</a>";
-    }
+    header("Location: welcome.php");
+    exit();
 } else {
-    echo "Пользователь не найден. <a href='registration.html'>Зарегистрироваться?</a>";
+    echo "Неверные имя пользователя или пароль. <a href='authorization.html'>Попробовать снова</a>";
 }
 
 $conn->close();
