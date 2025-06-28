@@ -1,11 +1,20 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header("Location: authorization.html");
+// Проверяем сессию
+if (isset($_SESSION['username'])) {
+    $username = htmlspecialchars($_SESSION['username']);
+} 
+// Если сессии нет — проверяем куки
+elseif (isset($_COOKIE['user'])) {
+    $username = htmlspecialchars($_COOKIE['user']);
+} else {
+    echo "<h1>Доступ запрещён!</h1>";
+    echo "<p><a href='authorization.html'>Войдите</a>, чтобы получить доступ.</p>";
     exit();
 }
-
-echo "<h2>Добро пожаловать, " . htmlspecialchars($_SESSION['username']) . "!</h2>";
-echo "<a href='logout.php'>Выйти</a>";
 ?>
+
+<h1>Привет, <?php echo $username; ?>!</h1>
+<p>Вы успешно авторизованы.</p>
+<a href="logout.php">Выйти</a>
